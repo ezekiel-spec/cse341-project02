@@ -5,4 +5,4 @@ const swaggerDocument = require('../swagger-output.json');
 router.use('/api-docs', swaggerUi.serve);
 router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
-module.exports = router;
+module.exports = router; // This MUST be here
