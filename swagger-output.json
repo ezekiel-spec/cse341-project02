@@ -51,7 +51,7 @@
                 "director": {
                   "example": "any"
                 },
-                "releaseYear": {
+                "year": {
                   "example": "any"
                 },
                 "genre": {
@@ -124,7 +124,7 @@
                 "director": {
                   "example": "any"
                 },
-                "releaseYear": {
+                "year": {
                   "example": "any"
                 },
                 "genre": {

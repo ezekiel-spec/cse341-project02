@@ -10,7 +10,6 @@ const initDb = (callback) => {
     return callback(null, _db);
   }
   
-  // Use the MONGODB_URI from your .env or Render Environment Variables
   MongoClient.connect(process.env.MONGODB_URI)
     .then((client) => {
       _db = client;
@@ -27,7 +26,7 @@ const getDb = () => {
   if (!_db) {
     throw Error('Db not initialized');
   }
-  // This explicitly returns the 'cse341' database from the connection
+  // This FORCES the app to use the 'cse341' database from your screenshot
   return _db.db('cse341');
 };
 

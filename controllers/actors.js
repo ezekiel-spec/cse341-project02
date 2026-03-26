@@ -3,7 +3,7 @@ const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
   try {
-    const result = await mongodb.getDb().db().collection('actors').find();
+    const result = await mongodb.getDb().collection('actors').find();
     result.toArray().then((lists) => {
       res.setHeader('Content-Type', 'application/json');
       res.status(200).json(lists);
@@ -16,7 +16,7 @@ const getAll = async (req, res) => {
 const getSingle = async (req, res) => {
   try {
     const actorId = new ObjectId(req.params.id);
-    const result = await mongodb.getDb().db().collection('actors').find({ _id: actorId });
+    const result = await mongodb.getDb().collection('actors').find({ _id: actorId });
     result.toArray().then((lists) => {
       res.setHeader('Content-Type', 'application/json');
       res.status(200).json(lists[0]);
@@ -35,7 +35,7 @@ const createActor = async (req, res) => {
       notableMovies: req.body.notableMovies,
       awards: req.body.awards
     };
-    const response = await mongodb.getDb().db().collection('actors').insertOne(actor);
+    const response = await mongodb.getDb().collection('actors').insertOne(actor);
     if (response.acknowledged) {
       res.status(201).json(response);
     } else {
@@ -56,7 +56,7 @@ const updateActor = async (req, res) => {
       notableMovies: req.body.notableMovies,
       awards: req.body.awards
     };
-    const response = await mongodb.getDb().db().collection('actors').replaceOne({ _id: actorId }, actor);
+    const response = await mongodb.getDb().collection('actors').replaceOne({ _id: actorId }, actor);
     if (response.modifiedCount > 0) {
       res.status(204).send();
     } else {
@@ -70,7 +70,7 @@ const updateActor = async (req, res) => {
 const deleteActor = async (req, res) => {
   try {
     const actorId = new ObjectId(req.params.id);
-    const response = await mongodb.getDb().db().collection('actors').deleteOne({ _id: actorId });
+    const response = await mongodb.getDb().collection('actors').deleteOne({ _id: actorId });
     if (response.deletedCount > 0) {
       res.status(200).send();
     } else {
@@ -81,10 +81,4 @@ const deleteActor = async (req, res) => {
   }
 };
 
-module.exports = {
-  getAll,
-  getSingle,
-  createActor,
-  updateActor,
-  deleteActor
-};
+module.exports = { getAll, getSingle, createActor, updateActor, deleteActor };
