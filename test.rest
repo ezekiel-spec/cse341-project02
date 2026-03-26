@@ -1,0 +1,53 @@
+### --- LOCAL HOST TESTS (Run 'npm start' first) ---
+
+### GET ALL MOVIES (LOCAL)
+GET http://localhost:8080/movies
+
+### GET ALL ACTORS (LOCAL)
+GET http://localhost:8080/actors
+
+### GET MOVIE BY ID (LOCAL)
+GET http://localhost:8080/movies/69c3efeb57aa34d316a60919
+
+
+### --- RENDER LIVE TESTS ---
+
+### GET ALL MOVIES (RENDER)
+GET https://cse341-project02-urrq.onrender.com/movies
+
+### GET ALL ACTORS (RENDER)
+GET https://cse341-project02-urrq.onrender.com/actors
+
+### GET MOVIE BY ID (RENDER)
+GET https://cse341-project02-urrq.onrender.com/movies/69c3efeb57aa34d316a60919
+
+### POST A NEW MOVIE (RENDER)
+POST https://cse341-project02-urrq.onrender.com/movies
+Content-Type: application/json
+
+{
+  "title": "Interstellar",
+  "director": "Christopher Nolan",
+  "year": "2014",
+  "genre": "Sci-Fi",
+  "rating": "PG-13",
+  "runtime": "169 min",
+  "description": "A team of explorers travel through a wormhole in space."
+}
+
+### PUT (UPDATE) A MOVIE (RENDER)
+PUT https://cse341-project02-urrq.onrender.com/movies/69c3efeb57aa34d316a60919
+Content-Type: application/json
+
+{
+  "title": "Inception (Updated)",
+  "director": "Christopher Nolan",
+  "year": "2010",
+  "genre": "Sci-Fi / Action",
+  "rating": "PG-13",
+  "runtime": "148 min",
+  "description": "A thief who steals corporate secrets through the use of dream-sharing technology."
+}
+
+### DELETE A MOVIE (RENDER)
+DELETE https://cse341-project02-urrq.onrender.com/movies/69c3efeb57aa34d316a60919
