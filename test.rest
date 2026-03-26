@@ -9,20 +9,23 @@ GET http://localhost:8080/actors
 ### GET MOVIE BY ID (LOCAL)
 GET http://localhost:8080/movies/69c3efeb57aa34d316a60919
 
+### GET ACTOR BY ID (LOCAL)
+GET http://localhost:8080/actors/69c4ed97c2cc6304dfe0082c
+
 
 ### --- RENDER LIVE TESTS ---
 
 ### GET ALL MOVIES (RENDER)
-GET https://cse341-project02-urrq.onrender.com/movies
+GET https://cse341-project2-1-gx2y.onrender.com/movies
 
 ### GET ALL ACTORS (RENDER)
-GET https://cse341-project02-urrq.onrender.com/actors
+GET https://cse341-project2-1-gx2y.onrender.com/actors
 
 ### GET MOVIE BY ID (RENDER)
-GET https://cse341-project02-urrq.onrender.com/movies/69c3efeb57aa34d316a60919
+GET https://cse341-project2-1-gx2y.onrender.com/movies/69c3efeb57aa34d316a60919
 
 ### POST A NEW MOVIE (RENDER)
-POST https://cse341-project02-urrq.onrender.com/movies
+POST https://cse341-project2-1-gx2y.onrender.com/movies
 Content-Type: application/json
 
 {
@@ -36,7 +39,7 @@ Content-Type: application/json
 }
 
 ### PUT (UPDATE) A MOVIE (RENDER)
-PUT https://cse341-project02-urrq.onrender.com/movies/69c3efeb57aa34d316a60919
+PUT https://cse341-project2-1-gx2y.onrender.com/movies/69c3efeb57aa34d316a60919
 Content-Type: application/json
 
 {
@@ -50,4 +53,4 @@ Content-Type: application/json
 }
 
 ### DELETE A MOVIE (RENDER)
-DELETE https://cse341-project02-urrq.onrender.com/movies/69c3efeb57aa34d316a60919
+DELETE https://cse341-project2-1-gx2y.onrender.com/movies/69c3efeb57aa34d316a60919
