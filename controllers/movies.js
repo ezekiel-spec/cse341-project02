@@ -15,9 +15,16 @@ const getAll = async (req, res) => {
 
 const getSingle = async (req, res) => {
   try {
+    // ERROR HANDLING: Validate ID format
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid ID format provided.' });
+    }
     const movieId = new ObjectId(req.params.id);
     const result = await mongodb.getDb().collection('movies').find({ _id: movieId });
     result.toArray().then((lists) => {
+      if (lists.length === 0) {
+        return res.status(404).json({ message: 'Movie not found.' });
+      }
       res.setHeader('Content-Type', 'application/json');
       res.status(200).json(lists[0]);
     });
@@ -28,6 +35,11 @@ const getSingle = async (req, res) => {
 
 const createMovie = async (req, res) => {
   try {
+    // DATA VALIDATION: Check for required fields (Rubric Requirement)
+    if (!req.body.title || !req.body.director || !req.body.year) {
+      return res.status(400).json({ message: 'Validation Failed: Title, Director, and Year are required.' });
+    }
+
     const movie = {
       title: req.body.title,
       director: req.body.director,
@@ -50,6 +62,16 @@ const createMovie = async (req, res) => {
 
 const updateMovie = async (req, res) => {
   try {
+    // ERROR HANDLING: Validate ID before update
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid ID format for update.' });
+    }
+
+    // DATA VALIDATION: Ensure title exists for update
+    if (!req.body.title) {
+      return res.status(400).json({ message: 'Validation Failed: Title is required for updates.' });
+    }
+
     const movieId = new ObjectId(req.params.id);
     const movie = {
       title: req.body.title,
@@ -64,7 +86,7 @@ const updateMovie = async (req, res) => {
     if (response.modifiedCount > 0) {
       res.status(204).send();
     } else {
-      res.status(500).json('An error occurred while updating the movie.');
+      res.status(500).json('An error occurred while updating the movie (or no data changed).');
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -73,12 +95,16 @@ const updateMovie = async (req, res) => {
 
 const deleteMovie = async (req, res) => {
   try {
+    // ERROR HANDLING: Validate ID before delete
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid ID format for deletion.' });
+    }
     const movieId = new ObjectId(req.params.id);
     const response = await mongodb.getDb().collection('movies').deleteOne({ _id: movieId });
     if (response.deletedCount > 0) {
       res.status(200).send();
     } else {
-      res.status(500).json('An error occurred while deleting the movie.');
+      res.status(404).json({ message: 'Movie not found in database to delete.' });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
