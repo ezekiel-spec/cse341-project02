@@ -1,18 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
-router.use('/', require('./swagger-router')); 
+router.use('/', require('./swagger-router'));
 router.use('/movies', require('./movies'));
 router.use('/actors', require('./actors'));
 
-module.exports = router;
+// Login Route: This redirects the user to GitHub
+router.get('/login', passport.authenticate('github', (req, res) => {}));
 
-const passport = require('passport');
-
-// Login Route
-router.get('/login', passport.authenticate('github', { scope: [ 'user:email' ] }));
-
-// Logout Route
+// Logout Route: This clears the session
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
         if (err) { return next(err); }
@@ -20,10 +17,4 @@ router.get('/logout', function(req, res, next) {
     });
 });
 
-// Callback Route
-router.get('/github/callback', passport.authenticate('github', {
-    failureRedirect: '/api-docs', session: false
-}), (req, res) => {
-    req.session.user = req.user;
-    res.redirect('/');
-});
+module.exports = router;
