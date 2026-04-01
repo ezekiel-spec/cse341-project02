@@ -1,23 +1,33 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongodb = require('./db/connect');
+const passport = require('passport');
+const session = require('express-session');
+const GitHubStrategy = require('passport-github2').Strategy;
 
-const port = process.env.PORT || 10000;
-const app = express();
+// 1. Session middleware
+app.use(session({
+    secret: 'secret', // You can use a random string here
+    resave: false,
+    saveUninitialized: true,
+}));
 
-app
-  .use(bodyParser.json())
-  .use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-  })
-  .use('/', require('./routes'));
+// 2. Passport init
+app.use(passport.initialize());
+app.use(passport.session());
 
-mongodb.initDb((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    app.listen(port);
-    console.log(`Connected to DB and listening on ${port}`);
+// 3. GitHub Strategy
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL
+  },
+  function(accessToken, refreshToken, profile, done) {
+    return done(null, profile);
   }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+    done(null, user);
 });
