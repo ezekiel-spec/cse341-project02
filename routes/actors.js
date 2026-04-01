@@ -1,13 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const actorsController = require('../controllers/actors');
-// const validation = require('../middleware/validate'); // Uncomment after creating validation middleware
+// 1. Import the authentication gatekeeper
+const { isAuthenticated } = require('../middleware/authenticate');
 
+// --- Public Routes ---
+// These are open to everyone (no login required)
 router.get('/', actorsController.getAll);
 router.get('/:id', actorsController.getSingle);
 
-router.post('/', actorsController.createActor); // Add validation.saveActor here later
-router.put('/:id', actorsController.updateActor);
-router.delete('/:id', actorsController.deleteActor);
+// --- Protected Routes ---
+// These now require the user to be logged in via GitHub
+// Added 'isAuthenticated' as middleware before the controller logic
+router.post('/', isAuthenticated, actorsController.createActor); 
+router.put('/:id', isAuthenticated, actorsController.updateActor);
+router.delete('/:id', isAuthenticated, actorsController.deleteActor);
 
 module.exports = router;
